@@ -1,30 +1,35 @@
-import styled from "styled-components";
-import {Button} from "../Button.tsx";
+import {Button} from "../button/Button.tsx";
+import { S } from "./Counter.styled.ts";
 
 type CounterProps = {
     count: number;
     max: number;
     min: number;
-    inc: () => void;
+    increment: () => void;
     reset: () => void;
-    error: string | null;
+    settingsChanged: boolean;
+    invalidValue: boolean;
 };
-export const Counter = ({count, max, min, inc, reset, error}: CounterProps) => {
 
-    const errorMessage = error || (count < 0 ? "Invalid value!" : null);
-
-    const isIncDisabled = count === max || count < 0;
-    const isResetDisabled = count === min || count < 0;
+export const Counter = ({count, max, min, increment, reset, settingsChanged, invalidValue}: CounterProps) => {
+    const isIncDisabled = count === max || invalidValue || settingsChanged;
+    const isResetDisabled = count === min || invalidValue || settingsChanged;
 
     return (
-        <CounterContainer>
-            <CounterValue className={count >= max ? 'error' : ''}>
-                {errorMessage || count}
-            </CounterValue>
-            <BtnContainer>
+        <S.CounterContainer>
+            <S.CounterValue className={invalidValue || min === max ? "error" : count === max? "error" : ""}>
+                {invalidValue ? (
+                    <span className="error">Invalid Value!</span>
+                ) : settingsChanged ? (
+                    <span>enter value and press "set"</span>
+                ) : (
+                    count
+                )}
+            </S.CounterValue>
+            <S.BtnContainer>
                 <Button
                     title={"inc"}
-                    onClick={inc}
+                    onClick={increment}
                     disabled={isIncDisabled}
                 />
                 <Button
@@ -32,49 +37,7 @@ export const Counter = ({count, max, min, inc, reset, error}: CounterProps) => {
                     onClick={reset}
                     disabled={isResetDisabled}
                 />
-            </BtnContainer>
-        </CounterContainer>
+            </S.BtnContainer>
+        </S.CounterContainer>
     );
 };
-
-const CounterContainer = styled.div`
-    width: 400px;
-    height: 350px;
-    border: 2px solid #0893dc;
-    border-radius: 15px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-`;
-
-const CounterValue = styled.div`
-    height: 50%;
-    border: 2px solid #0893dc;
-    border-radius: 15px;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    color: white;
-    
-    &.maxValue {
-        color: red;
-    }
-    
-    &.error {
-      color: red;
-        text-align: center;
-    }
-
-`;
-
-const BtnContainer = styled.div`
-    border: 2px solid #0893dc;
-    border-radius: 15px;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-`;

@@ -1,18 +1,6 @@
 import styled from "styled-components";
 
-type ButtonProps = {
-    title: string;
-    onClick?: () => void;
-    disabled?: boolean;
-
-};
-export const Button = ({title, onClick, disabled}: ButtonProps) => {
-    return (
-        <StyledButton onClick={onClick} disabled={disabled}>{title}</StyledButton>
-    );
-};
-
-const StyledButton = styled.button`
+const Button = styled.button`
     width: 100px;
     height: 50px;
     background-color: #2c90bc;
@@ -32,3 +20,8 @@ const StyledButton = styled.button`
         color: #cccccc;
     }
 `
+
+
+export const S ={
+    Button
+}

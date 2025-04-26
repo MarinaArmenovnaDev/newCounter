@@ -1,80 +1,54 @@
-import {Button} from "../Button.tsx";
-import styled from "styled-components";
+import {Button} from "../button/Button.tsx";
 import {ChangeEvent} from "react";
-
+import { S } from "./Settings.styled.ts";
 
 type SettingsProps = {
-    maxValueHandler: (e:ChangeEvent<HTMLInputElement>) => void;
-    minValueHandler: (e:ChangeEvent<HTMLInputElement>) => void;
-    setClickHandler: ()=> void;
-    max: number
-    min: number
+    maxValueHandler: (e: ChangeEvent<HTMLInputElement>) => void;
+    minValueHandler: (e: ChangeEvent<HTMLInputElement>) => void;
+    setClickHandler: () => void;
+    max: number;
+    min: number;
+    invalidValue: boolean;
 };
-export const Settings = ({maxValueHandler, minValueHandler, setClickHandler, max, min}: SettingsProps) => {
 
+export const Settings = ({
+                             maxValueHandler,
+                             minValueHandler,
+                             setClickHandler,
+                             max,
+                             min,
+                             invalidValue
+                         }: SettingsProps) => {
     return (
-        <SettingsContainer>
-            <ValuesPanel>
-                <ValueSection>
-                    <Span>max value:</Span>
-                    <Input type="number" value={max} onChange={maxValueHandler}/>
-                </ValueSection>
-                <ValueSection>
-                    <Span>min value:</Span>
-                    <Input type="number" value={min} onChange={minValueHandler}/>
-                </ValueSection>
-            </ValuesPanel>
+        <S.SettingsContainer>
+            <S.ValuesPanel>
+                <S.ValueSection>
+                    <S.Span>max value:</S.Span>
+                    <S.Input
+                        type="number"
+                        value={max}
+                        onChange={maxValueHandler}
+                        className={invalidValue ? 'error' : ''}
+                    />
+                </S.ValueSection>
+                <S.ValueSection>
+                    <S.Span>min value:</S.Span>
+                    <S.Input
+                        type="number"
+                        value={min}
+                        onChange={minValueHandler}
+                        className={invalidValue ? 'error' : ''}
+                    />
+                </S.ValueSection>
+            </S.ValuesPanel>
 
-            <BtnContainer>
-                <Button title={"set"} onClick={setClickHandler}></Button>
-            </BtnContainer>
-        </SettingsContainer>
+            <S.BtnContainer>
+                <Button
+                    title={"set"}
+                    onClick={setClickHandler}
+                    disabled={invalidValue}
+                />
+            </S.BtnContainer>
+        </S.SettingsContainer>
     );
 };
-
-const SettingsContainer = styled.div`
-    width: 400px;
-    height: 350px;
-    border: 2px solid #0893dc;
-    border-radius: 15px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-`
-const ValuesPanel = styled.div`
-    height: 50%;
-    border: 2px solid #0893dc;
-    border-radius: 15px;
-    padding: 20px;
-`
-const ValueSection = styled.div`
-    display: flex;
-    justify-content: space-between;
-
-    & + & {
-        margin-top: 20px;
-    }
-`
-
-const Span = styled.span`
-    color: white;
-    font-size: 1.5rem;
-`
-
-const Input = styled.input`
-    border-radius: 5px;
-    text-align: center;
-
-    &.error {
-        border-color: red;
-    }
-`
-
-const BtnContainer = styled.div`
-    border: 2px solid #0893dc;
-    border-radius: 15px;
-    padding: 30px;
-    text-align: center;
-
-`
