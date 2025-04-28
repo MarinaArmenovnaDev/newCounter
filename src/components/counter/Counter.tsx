@@ -1,17 +1,17 @@
 import {Button} from "../button/Button.tsx";
 import { S } from "./Counter.styled.ts";
+import {Dispatch, SetStateAction} from "react";
 
 type CounterProps = {
     count: number;
     max: number;
     min: number;
-    increment: () => void;
-    reset: () => void;
+    setCount: Dispatch<SetStateAction<number>>;
     settingsChanged: boolean;
     invalidValue: boolean;
 };
 
-export const Counter = ({count, max, min, increment, reset, settingsChanged, invalidValue}: CounterProps) => {
+export const Counter = ({count, max, min, setCount, settingsChanged, invalidValue}: CounterProps) => {
     const isIncDisabled = count === max || invalidValue || settingsChanged;
     const isResetDisabled = count === min || invalidValue || settingsChanged;
 
@@ -29,12 +29,12 @@ export const Counter = ({count, max, min, increment, reset, settingsChanged, inv
             <S.BtnContainer>
                 <Button
                     title={"inc"}
-                    onClick={increment}
+                    onClick={()=> setCount(count + 1)}
                     disabled={isIncDisabled}
                 />
                 <Button
                     title={"reset"}
-                    onClick={reset}
+                    onClick={()=>setCount(min)}
                     disabled={isResetDisabled}
                 />
             </S.BtnContainer>

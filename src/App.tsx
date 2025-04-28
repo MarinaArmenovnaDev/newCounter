@@ -46,16 +46,6 @@ function App() {
         }
     };
 
-    const increment = () => {
-        if (count < max) {
-            setCount(count + 1);
-        }
-    }
-
-    const reset = () => {
-        setCount(min);
-    }
-
     return (
         <MainContainer>
             <Settings
@@ -70,8 +60,7 @@ function App() {
                 count={count}
                 max={max}
                 min={min}
-                increment={increment}
-                reset={reset}
+                setCount={setCount}
                 settingsChanged={settingsChanged}
                 invalidValue={invalidValue}
             />
